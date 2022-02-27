@@ -1,6 +1,7 @@
 let canvas = document.getElementById("snake-game-canvas");
 let canvasContext = canvas.getContext("2d");
 let snakeMove = 5;
+let snakeSpeed = 13;
 // fillCanvas();
 setInterval(() => {
   moveSnake();
@@ -16,7 +17,13 @@ setInterval(() => {
 // } 
 
 function moveSnake(){
-  snakeMove = snakeMove + 8;
+  snakeMove = snakeMove + snakeSpeed;
+  if(snakeMove > canvas.width){
+    snakeSpeed = -snakeSpeed;
+  }
+  if(snakeMove < 0){
+    snakeSpeed = -snakeSpeed;
+  }
 }
 
 function drawSnake(){
