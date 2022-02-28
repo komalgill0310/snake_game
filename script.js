@@ -34,11 +34,14 @@ function drawSnake() {
 }
 
 function drawApple() {
-  canvasContext.fillStyle = "red";
-  canvasContext.arc(150, 105, 5, 0, 2 * Math.PI);
-  canvasContext.fill();
+  colorCircle(150, 105, 7, "red");
 }
 
-
+function colorCircle(centerX, centerY, radius, drawColor){
+  canvasContext.fillStyle = drawColor;
+  canvasContext.beginPath();
+  canvasContext.arc(centerX, centerY, radius, 0, Math.PI*2, drawColor);
+  canvasContext.fill();
+}
 
 
