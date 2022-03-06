@@ -1,9 +1,9 @@
 let canvas = document.getElementById("snake-game-canvas");
 let canvasContext = canvas.getContext("2d");
-// let snakeDir = "down";
+let snakeDir = undefined;
 let snakeMoveX = 153;
 let snakeMoveY = 225;
-let snakeSpeed = 2;
+let snakeSpeed = 12;
 
 setInterval(() => {
   drawCanvas();
@@ -36,38 +36,76 @@ function colorCircle(centerX, centerY, radius, drawColor) {
   canvasContext.fill();
 }
 
+document.addEventListener("keydown", (e) => {
+  e.preventDefault();
+  switch (e.key) {
+    case "ArrowDown":
+      snakeDir = "down";
+      moveSnake();
+      break;
+    case "ArrowUp":
+      snakeDir = "top";
+      moveSnake();
+      break;
+    case "ArrowRight":
+      snakeDir = "right";
+      moveSnake();
+      break;
+    case "ArrowLeft":
+      snakeDir = "left";
+      moveSnake();
+      break;
+  }
+});
+
 function moveSnake() {
-  document.addEventListener("keydown", (e) => {
-    e.preventDefault();
-    switch (e.key) {
-      case "ArrowDown":
-        snakeMoveY += snakeSpeed;
-        console.log("DownWards");
-        break;
-      case "ArrowUp":
-        snakeMoveY -= snakeSpeed;
-        console.log("UpWards");
-        break;
-      case "ArrowRight":
-        snakeMoveX += snakeSpeed;
-        console.log("Right");
-        break;
-      case "ArrowLeft":
-        snakeMoveX -= snakeSpeed;
-        console.log("Left");
-        break;
-    }
-  });
+  if (snakeDir === "right") {
+    snakeMoveX += snakeSpeed;
+    console.log("Right");
+  }
+  if (snakeDir === "left") {
+    snakeMoveX -= snakeSpeed;
+    console.log("Left");
+  }
+  if (snakeDir === "top") {
+    snakeMoveY -= snakeSpeed;
+    console.log("UpWards");
+  }
+  if (snakeDir === "down") {
+    snakeMoveY += snakeSpeed;
+    console.log("downWards");
+  }
 }
 
 
+  
 
 
 
 
 
 
-
+// document.addEventListener("keydown", (e) => {
+//   e.preventDefault();
+//   switch (e.key) {
+//     case "ArrowDown":
+//       snakeMoveY += snakeSpeed;
+//       console.log("DownWards");
+//       break;
+//     case "ArrowUp":
+//       snakeMoveY -= snakeSpeed;
+//       console.log("UpWards");
+//       break;
+//     case "ArrowRight":
+//       snakeMoveX += snakeSpeed;
+//       console.log("Right");
+//       break;
+//     case "ArrowLeft":
+//       snakeMoveX -= snakeSpeed;
+//       console.log("Left");
+//       break;
+//   }
+// });
 
 
 
