@@ -1,16 +1,21 @@
 let canvas = document.getElementById("snake-game-canvas");
 let canvasContext = canvas.getContext("2d");
 let snakeDir = undefined;
-let snakeMoveX = 153;
-let snakeMoveY = 225;
-let snakeSpeed = 12;
+let snakeMoveX = 33;
+let snakeMoveY = (canvas.height) / 2;
+let snakeSpeedX = 12;
+let snakeSpeedY = 12;
 
-setInterval(() => {
+// snake();
+
+const myInterval = setInterval(() => {
   drawCanvas();
   drawSnake();
   drawApple();
   moveSnake();
 }, 500);
+
+snake();
 
 function drawCanvas() {
   colorRect(0, 0, canvas.width, canvas.height, "black");
@@ -26,7 +31,7 @@ function colorRect(x, y, width, height, color) {
 }
 
 function drawApple() {
-  colorCircle(150, 105, 7, "red");
+  Math.random(colorCircle(150, 105, 7, "red")) * canvas.width;
 }
 
 function colorCircle(centerX, centerY, radius, drawColor) {
@@ -36,166 +41,71 @@ function colorCircle(centerX, centerY, radius, drawColor) {
   canvasContext.fill();
 }
 
-document.addEventListener("keydown", (e) => {
-  e.preventDefault();
-  switch (e.key) {
-    case "ArrowDown":
-      snakeDir = "down";
-      moveSnake();
-      break;
-    case "ArrowUp":
-      snakeDir = "top";
-      moveSnake();
-      break;
-    case "ArrowRight":
-      snakeDir = "right";
-      moveSnake();
-      break;
-    case "ArrowLeft":
-      snakeDir = "left";
-      moveSnake();
-      break;
-  }
-});
+function snake() {
+  document.addEventListener("keydown", (e) => {
+    e.preventDefault();
+    switch (e.key) {
+      case "ArrowDown":
+        snakeDir = "down";
+        moveSnake();
+        break;
+      case "ArrowUp":
+        snakeDir = "top";
+        moveSnake();
+        break;
+      case "ArrowRight":
+        snakeDir = "right";
+        moveSnake();
+        break;
+      case "ArrowLeft":
+        snakeDir = "left";
+        moveSnake();
+        break;
+    }
+  });
+}
 
 function moveSnake() {
   if (snakeDir === "right") {
-    snakeMoveX += snakeSpeed;
-    console.log("Right");
+    snakeMoveX += snakeSpeedX;
+    endGameWhenSnakeTouchWall();
+    console.log("Right", snakeMoveX);
   }
   if (snakeDir === "left") {
-    snakeMoveX -= snakeSpeed;
-    console.log("Left");
+    snakeMoveX -= snakeSpeedX;
+    endGameWhenSnakeTouchWall(); 
+    console.log("Left: ", snakeMoveX);
   }
   if (snakeDir === "top") {
-    snakeMoveY -= snakeSpeed;
-    console.log("UpWards");
+    snakeMoveY -= snakeSpeedY;
+    endGameWhenSnakeTouchWall();
+    console.log("UpWards: ", snakeMoveY);
   }
   if (snakeDir === "down") {
-    snakeMoveY += snakeSpeed;
-    console.log("downWards");
+    snakeMoveY += snakeSpeedY;
+    endGameWhenSnakeTouchWall(); 
+    console.log("downWards: ", snakeMoveY);
+  }
+}
+
+function endGameWhenSnakeTouchWall() {
+  if (snakeMoveX > 717) {
+    clearInterval(myInterval);
+    alert("Oops! you Hit the Right Wall");    
+  }
+  if (snakeMoveY < -1.5) {
+    clearInterval(myInterval);
+    alert("Oops! you hit the top Wall");
+  }
+  if(snakeMoveY > 502.5){
+    clearInterval(myInterval);
+    alert("Oops! you hit the bottom Wall");
+  }
+  if(snakeMoveX < -3){
+    clearInterval(myInterval);
+    alert("Oops! you hit the left Wall");
   }
 }
 
 
-  
 
-
-
-
-
-
-// document.addEventListener("keydown", (e) => {
-//   e.preventDefault();
-//   switch (e.key) {
-//     case "ArrowDown":
-//       snakeMoveY += snakeSpeed;
-//       console.log("DownWards");
-//       break;
-//     case "ArrowUp":
-//       snakeMoveY -= snakeSpeed;
-//       console.log("UpWards");
-//       break;
-//     case "ArrowRight":
-//       snakeMoveX += snakeSpeed;
-//       console.log("Right");
-//       break;
-//     case "ArrowLeft":
-//       snakeMoveX -= snakeSpeed;
-//       console.log("Left");
-//       break;
-//   }
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //   if(snakeDir === "right"){
-  //     snakeMoveX += snakeSpeedX;
-  //   }
-  //   if(snakeDir === "left"){
-  //     snakeMoveX -= snakeSpeedX;
-  //   }
-  // if(snakeDir === "down"){
-  //   snakeMoveY += snakeSpeedY;
-  // }
-  // if(snakeDir === "up"){
-  //   snakeMoveY -= snakeSpeedY;
-  // }
-
-
-// function moveSnake() {
-//   drawCanvas();
-//   drawSnake();
-//   drawApple();
-//   document.addEventListener("keydown", (e) => {
-// e.preventDefault();
-// switch (e.key) {
-//   case "ArrowRight":
-//   snakeMoveX += snakeSpeedX;
-//   console.log("snake is moving right");
-//   // drawSnake();
-//   break;
-// }
-//   case "ArrowRight":
-//     snakeMoveX = snakeMoveX + snakeSpeedX;
-//     console.log("right Direction!");
-//     drawSnake();
-//     console.log("SnakeX from DrawSnake: ", snakeMoveX);
-//     break;
-
-//   default:
-//     console.log("did not work the logic");
-//     break;
-// }
-//   });
-// });
-  // if (snakeDir === "right") {
-  //   snakeMoveX = snakeMoveX + snakeSpeedX;
-  //   console.log(snakeMoveX);
-  // }
-  // if (snakeDir === "down") {
-  //   snakeMoveY = (snakeMoveY + snakeSpeedY);
-  //   console.log(snakeMoveY);
-  // }
-  // if (snakeDir === "up") {
-  //   snakeMoveY = (snakeMoveY - snakeSpeedY);
-  //   console.log(snakeMoveY);
-  // }
-  // if (snakeDir === "left") {
-  //   snakeMoveX = snakeMoveX - snakeSpeedX;
-  //   console.log("SnakeMoveX: ", snakeMoveX);
-  // }
-  // });
-  // //   // snakeMoveY = snakeMoveY + snakeSpeedY;
-  // //   if (snakeMoveX > 710) {
-  // //     snakeSpeedX = -snakeSpeedX;
-  // //   }
-  // //   // if (snakeMoveX < 0) {
-  // //   //   snakeSpeedX = -snakeSpeedX;
-  // //   // }
-  // //   // if(snakeMoveY > 500){
-  // //   //   snakeSpeedY = -snakeSpeedY;
-  // //   // }
-  // //   // if(snakeMoveY < 0){
-  // //   //   snakeSpeedY = -snakeSpeedY;
-  // //   // }
-// }
