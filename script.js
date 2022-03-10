@@ -3,8 +3,8 @@ let canvasContext = canvas.getContext("2d");
 let snakeDir = undefined;
 let snakeMoveX = 33;
 let snakeMoveY = (canvas.height) / 2;
-let snakeSpeedX = 12;
-let snakeSpeedY = 12;
+let snakeSpeed = 12;
+// let snakeSpeedY = 12;
 
 // snake();
 
@@ -22,7 +22,7 @@ function drawCanvas() {
 }
 
 function drawSnake() {
-  colorRect(snakeMoveX, snakeMoveY, 39, 21, "green");
+  colorRect(snakeMoveX, snakeMoveY, 23, 21, "green");
 }
 
 function colorRect(x, y, width, height, color) {
@@ -31,7 +31,11 @@ function colorRect(x, y, width, height, color) {
 }
 
 function drawApple() {
-  Math.random(colorCircle(150, 105, 7, "red")) * canvas.width;
+  let x = Math.floor(Math.random()*650 - Math.random()*15);
+  let y = Math.floor(Math.random()*450 - Math.random()*15);
+  colorCircle(x, y, 7, "red");
+  console.log("x-axis: ", +x+ "& y-axis: ", +y)
+  // Math.random(colorCircle(150, 105, 7, "red")) * canvas.width;
 }
 
 function colorCircle(centerX, centerY, radius, drawColor) {
@@ -67,22 +71,23 @@ function snake() {
 
 function moveSnake() {
   if (snakeDir === "right") {
-    snakeMoveX += snakeSpeedX;
+    snakeMoveX += snakeSpeed;
     endGameWhenSnakeTouchWall();
     console.log("Right", snakeMoveX);
   }
   if (snakeDir === "left") {
-    snakeMoveX -= snakeSpeedX;
+    snakeMoveX -= snakeSpeed;
     endGameWhenSnakeTouchWall(); 
     console.log("Left: ", snakeMoveX);
   }
   if (snakeDir === "top") {
-    snakeMoveY -= snakeSpeedY;
+    snakeMoveY -= snakeSpeed;
+    // rotateSnake();
     endGameWhenSnakeTouchWall();
     console.log("UpWards: ", snakeMoveY);
   }
   if (snakeDir === "down") {
-    snakeMoveY += snakeSpeedY;
+    snakeMoveY += snakeSpeed;
     endGameWhenSnakeTouchWall(); 
     console.log("downWards: ", snakeMoveY);
   }
@@ -108,4 +113,10 @@ function endGameWhenSnakeTouchWall() {
 }
 
 
-
+// function rotateSnake(){
+//   let i = drawSnake();
+//   i.translate(54.5, 273);
+//   i.rotate(Math.PI/2);
+//   i.translate(-54.5, -273);
+//   console.log("Rotation to the Top");
+// }
