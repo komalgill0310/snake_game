@@ -45,30 +45,29 @@ const myInterval = setInterval(() => {
 
 startGame();
 
-function startGame(){
+function startGame() {
   document.addEventListener("keydown", (e) => {
-    if(e.key === " "){
+    if (e.key === " ") {
       snakeDirection = "right";
-      alterSnakeDir(); 
+      alterSnakeDir();
     }
   });
 }
 
-
 function gameCanvas() {
   colorRect(0, 0, canvas.width, canvas.height, "black");
-  drawGridOnCanvas();
+  // drawGridOnCanvas();
 }
 
-function drawGridOnCanvas() {
-  for (let i = 0; i < canvas.width; i++) {
-    for (let j = 0; j < canvas.height; j++) {
-      let x = i * 25;
-      let y = j * 25;
-      colorRect(x, y, 21, 18, "green");
-    }
-  }
-}
+// function drawGridOnCanvas() {
+//   for (let i = 0; i < canvas.width; i++) {
+//     for (let j = 0; j < canvas.height; j++) {
+//       let x = i * 25;
+//       let y = j * 25;
+//       colorRect(x, y, 19 , 16, "green");
+//     }
+//   }
+// }
 
 function drawSnakeBody(snakeBody) {
   for (let i = 0; i < snakeBody.length; i++) {
@@ -82,7 +81,7 @@ function drawSnake(snakeBody) {
     snakeBody.y,
     dimOfSnakeAndApple[0],
     dimOfSnakeAndApple[1],
-    "blue"
+    "green"
   );
 }
 
@@ -141,14 +140,10 @@ function moveSnake(snakeBody) {
   );
 
   if (snakeDirection === "right") {
-    let detect = boundaryDetection();
-    if (!detect) {
-      snakeBody[0].x += snakeSpeed;
-      moveSnakeBody(copyOfSnakeBody);
-      // console.log("Right: ", snakeBody[0].x);
-      boundaryDetection();
-      console.log("Right: ", snakeBody[0].x);
-    }
+    boundaryDetection();
+    snakeBody[0].x += snakeSpeed;
+    moveSnakeBody(copyOfSnakeBody);
+    console.log("Right: ", snakeBody[0].x);
   }
   if (snakeDirection === "left") {
     boundaryDetection();
@@ -169,7 +164,7 @@ function moveSnake(snakeBody) {
     console.log("Down: ", snakeBody[0].y);
   }
   // boundaryDetection();
-  snakeTouchItself();
+  // snakeTouchItself();
 }
 
 //How snake will collide with applePos?
@@ -225,9 +220,9 @@ function boundaryDetection() {
     alert("You Hit the wall");
     clearInterval(myInterval);
     // resetSnakePos(snakeBody);
-    // isSnakeHitTheWall = true;
+    isSnakeHitTheWall = true;
   }
-  // isSnakeHitTheWall = true;
+  return isSnakeHitTheWall;
 }
 
 function growSnakeBody() {
@@ -245,7 +240,7 @@ function growSnakeBody() {
 
 //Game Over: When Snake touch itself
 function snakeTouchItself() {
-  for (let i = 1; i < snakeBody.length; i++) {
+  for (let i = 3; i < snakeBody.length; i++) {
     if (
       snakeBody[0].x === snakeBody[i].x &&
       snakeBody[0].y === snakeBody[i].y

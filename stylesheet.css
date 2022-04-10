@@ -6,6 +6,11 @@
   flex-direction: column;
 }
 
+h1{
+  font-size: 61px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
 #snake-game-canvas {
   border: 1px solid black;
 }
