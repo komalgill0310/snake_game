@@ -9,3 +9,16 @@
 #snake-game-canvas {
   border: 1px solid black;
 }
+
+.score-container{
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 45px;
+  margin-left: 1178px;
+  margin-top: -445px;
+}
+
+#game-start{
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  margin-top: -79px;
+  font-size: 41px;
+}
