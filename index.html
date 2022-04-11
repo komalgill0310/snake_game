@@ -1,36 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Snake Game</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake Game</title>
 
-  <link rel="stylesheet" href="stylesheet.css">
-</head>
-<body>
-  <div class="main-container">
+    <link rel="stylesheet" href="stylesheet.css" />
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="title">
+        <h1>
+          <img
+            id="snake-image"
+            src="snake_pic.webp"
+            alt=""
+          />
+        </h1>
+      </div>
 
-    <div class="title">
-      <h1>Snake Game</h1>
-    </div>
-    
-    <div class="game-container">
+      <div class="game-container">
+        <div class="canvas-container">
+          <canvas id="snake-game-canvas" width="850" height="725"> </canvas>
+        </div>
+      </div>
 
-      <div class="canvas-container">
-        <canvas id="snake-game-canvas" width="750" height="525"></canvas>
+      <div class="game-button-container">
+        <button id="start-game">Start Game</button>
+        <button id="restart-game">Restart Game</button>
+      </div>
+
+      <div class="score-container">
+        <p id="score"></p>
       </div>
     </div>
 
-    <div class="score-container">
-      <p id="score"># of apple eaten</p>
-    </div>
-  </div>
-
-  <div class="start-game">
-    <p id="game-start">Press Space Key <br> to begin the game.</p>
-  </div>
-
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

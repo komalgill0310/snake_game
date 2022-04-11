@@ -6,24 +6,64 @@
   flex-direction: column;
 }
 
-h1{
-  font-size: 61px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+body {
+  background-color: rgba(2, 253, 2, 0.863);
+}
+
+h1 {
+  margin-top: -55px;
 }
 
 #snake-game-canvas {
-  border: 1px solid black;
+  margin-top: -45px;
 }
 
-.score-container{
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  font-size: 45px;
+.score-container {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 35px;
   margin-left: 1178px;
   margin-top: -445px;
 }
 
-#game-start{
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  margin-top: -79px;
-  font-size: 41px;
+#score {
+  font-size: 54px;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
+
+.game-button-container {
+  margin-top: 23px;
+  margin-left: 23px;
+}
+
+#start-game {
+  padding: 5px;
+  margin-left: 53px;
+  margin-right: 23px;
+  border-radius: 13px;
+  font-size: 35px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  opacity: 1px;
+  cursor: pointer;
+  background-color: green;
+}
+
+#start-game:hover {
+  background-color: blue;
+}
+
+#restart-game {
+  padding: 5px;
+  border-radius: 13px;
+  font-size: 35px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  opacity: 1px;
+  cursor: pointer;
+  background-color: rgb(96, 96, 223);
+}
+
+#restart-game:hover {
+  background-color: yellowgreen;
+}
+
+

@@ -1,103 +1,59 @@
-const DEBUG = false;
-
-let gameInterval = 500;
-
-let canvas = document.getElementById("snake-game-canvas");
+const canvas = document.getElementById("snake-game-canvas");
 let canvasContext = canvas.getContext("2d");
+
+const GAME_INTERVAL = 100;
+const SNAKE_SPEED = 25;
+const DIM_OF_SNAKE_AND_APPLE = [21, 18];
+const BORDER_COORDINATE = {
+  right: 825,
+  left: 0,
+  top: 0,
+  bottom: 700,
+};
+
+let myInterval;
 let snakeDirection = undefined;
-let snakeSpeed = 25;
 let incrementScore = 0;
 
 let snakeBody = [
-  { x: 125, y: 225 },
-  { x: 100, y: 225 },
-  { x: 75, y: 225 },
-  // { x: 180, y: 240 },
-  // { x: 150, y: 240 },
-  // { x: 120, y: 240 }
+  { x: 125, y: 325 },
+  { x: 100, y: 325 },
+  { x: 75, y: 325 },
 ];
 
 let applePos = {
-  appleX: randomNumber(650),
-  appleY: randomNumber(450),
+  appleX: randomNumber(750),
+  appleY: randomNumber(625),
 };
 
-let dimOfSnakeAndApple = [21, 18];
-
-function randomNumber(maxNum) {
-  return Math.floor((Math.random() * maxNum) / snakeSpeed) * snakeSpeed;
-}
-
-if (DEBUG === true) {
-  snakeDirection = "right";
-  gameInterval = 2000;
-  applePos.appleX = 225;
-  applePos.appleY = 225;
-}
-
-const myInterval = setInterval(() => {
-  gameCanvas();
-  snakeEatsApple();
-  drawSnakeBody(snakeBody);
-  moveSnake(snakeBody);
-  // snakeTouchItself();
-}, gameInterval);
-
 startGame();
+runEntireGame();
+gameRestart();
 
 function startGame() {
-  document.addEventListener("keydown", (e) => {
-    if (e.key === " ") {
-      snakeDirection = "right";
-      alterSnakeDir();
-    }
+  document.getElementById("start-game").addEventListener("click", (e) => {
+    e.preventDefault();
+    snakeDirection = "right";
+    alterSnakeDir();
   });
 }
 
-function gameCanvas() {
-  colorRect(0, 0, canvas.width, canvas.height, "black");
-  // drawGridOnCanvas();
+function runEntireGame() {
+  myInterval = setInterval(() => {
+    gameCanvas();
+    snakeTouchItself();
+    boundaryDetection();
+    snakeEatsApple();
+    drawSnakeBody(snakeBody);
+    moveSnake(snakeBody);
+  }, GAME_INTERVAL);
 }
 
-// function drawGridOnCanvas() {
-//   for (let i = 0; i < canvas.width; i++) {
-//     for (let j = 0; j < canvas.height; j++) {
-//       let x = i * 25;
-//       let y = j * 25;
-//       colorRect(x, y, 19 , 16, "green");
-//     }
-//   }
-// }
-
-function drawSnakeBody(snakeBody) {
-  for (let i = 0; i < snakeBody.length; i++) {
-    drawSnake(snakeBody[i]);
-  }
-}
-
-function drawSnake(snakeBody) {
-  colorRect(
-    snakeBody.x,
-    snakeBody.y,
-    dimOfSnakeAndApple[0],
-    dimOfSnakeAndApple[1],
-    "green"
-  );
-}
-
-function colorRect(x, y, width, height, color) {
-  canvasContext.fillStyle = color;
-  canvasContext.fillRect(x, y, width, height);
-}
-
-function drawApple() {
-  colorRect(
-    applePos.appleX,
-    applePos.appleY,
-    dimOfSnakeAndApple[0],
-    dimOfSnakeAndApple[1],
-    "red"
-  );
+function gameRestart() {
+  document.getElementById("restart-game").addEventListener("click", (e) => {
+    e.preventDefault();
+    location.reload();
+  });
 }
 
 function alterSnakeDir() {
@@ -128,46 +84,34 @@ function alterSnakeDir() {
   });
 }
 
-function moveSnakeBody(copyOfSnakeBody) {
+function gameCanvas() {
+  colorRect(0, 0, canvas.width, canvas.height, "black");
+}
+
+function snakeTouchItself() {
   for (let i = 1; i < snakeBody.length; i++) {
-    snakeBody[i] = copyOfSnakeBody[i - 1];
+    if (
+      snakeBody[0].x === snakeBody[i].x &&
+      snakeBody[0].y === snakeBody[i].y
+    ) {
+      clearInterval(myInterval);
+      alert("oops, you ran into yourself!");
+    }
   }
 }
 
-function moveSnake(snakeBody) {
-  let copyOfSnakeBody = snakeBody.map((snakeBody) =>
-    Object.assign([], snakeBody)
-  );
-
-  if (snakeDirection === "right") {
-    boundaryDetection();
-    snakeBody[0].x += snakeSpeed;
-    moveSnakeBody(copyOfSnakeBody);
-    console.log("Right: ", snakeBody[0].x);
+function boundaryDetection() {
+  if (
+    snakeBody[0].x > BORDER_COORDINATE.right ||
+    snakeBody[0].x < BORDER_COORDINATE.left ||
+    snakeBody[0].y < BORDER_COORDINATE.top ||
+    snakeBody[0].y > BORDER_COORDINATE.bottom
+  ) {
+    clearInterval(myInterval);
+    alert("GAME OVER");
   }
-  if (snakeDirection === "left") {
-    boundaryDetection();
-    snakeBody[0].x -= snakeSpeed;
-    moveSnakeBody(copyOfSnakeBody);
-    console.log("Left: ", snakeBody[0].x);
-  }
-  if (snakeDirection === "top") {
-    boundaryDetection();
-    snakeBody[0].y -= snakeSpeed;
-    moveSnakeBody(copyOfSnakeBody);
-    console.log("Top: ", snakeBody[0].y);
-  }
-  if (snakeDirection === "down") {
-    boundaryDetection();
-    snakeBody[0].y += snakeSpeed;
-    moveSnakeBody(copyOfSnakeBody);
-    console.log("Down: ", snakeBody[0].y);
-  }
-  // boundaryDetection();
-  // snakeTouchItself();
 }
 
-//How snake will collide with applePos?
 function snakeEatsApple() {
   if (
     snakeBody[0].x === applePos.appleX &&
@@ -178,6 +122,35 @@ function snakeEatsApple() {
     displayScore();
   } else {
     drawApple();
+  }
+}
+
+function drawSnakeBody(snakeBody) {
+  for (let i = 0; i < snakeBody.length; i++) {
+    drawSnake(snakeBody[i]);
+  }
+}
+
+function moveSnake(snakeBody) {
+  let copyOfSnakeBody = snakeBody.map((snakeBody) =>
+    Object.assign([], snakeBody)
+  );
+
+  if (snakeDirection === "right") {
+    snakeBody[0].x += SNAKE_SPEED;
+    moveSnakeBody(copyOfSnakeBody);
+  }
+  if (snakeDirection === "left") {
+    snakeBody[0].x -= SNAKE_SPEED;
+    moveSnakeBody(copyOfSnakeBody);
+  }
+  if (snakeDirection === "top") {
+    snakeBody[0].y -= SNAKE_SPEED;
+    moveSnakeBody(copyOfSnakeBody);
+  }
+  if (snakeDirection === "down") {
+    snakeBody[0].y += SNAKE_SPEED;
+    moveSnakeBody(copyOfSnakeBody);
   }
 }
 
@@ -194,63 +167,56 @@ function reGrowApple() {
   }
 }
 
-function displayScore() {
-  let score = document.getElementById("score");
-  incrementScore++;
-  score.textContent = `# of apple eaten: ${incrementScore}`;
-}
-
-let borderCoordinate = {
-  right: 750,
-  left: 0,
-  top: 0,
-  bottom: 500,
-};
-
-let isSnakeHitTheWall = false;
-
-function boundaryDetection() {
-  if (
-    snakeBody[0].x > borderCoordinate.right ||
-    snakeBody[0].x < borderCoordinate.left ||
-    snakeBody[0].y < borderCoordinate.top ||
-    snakeBody[0].y > borderCoordinate.bottom
-  ) {
-    // clearInterval(myInterval);
-    alert("You Hit the wall");
-    clearInterval(myInterval);
-    // resetSnakePos(snakeBody);
-    isSnakeHitTheWall = true;
-  }
-  return isSnakeHitTheWall;
-}
-
 function growSnakeBody() {
   let newSnakeBody;
   for (let i = snakeBody.length - 1; i < snakeBody.length; i++) {
     if (snakeDirection === "right" || snakeDirection === "left") {
-      newSnakeBody = { x: snakeBody[i].x - snakeSpeed, y: snakeBody[i].y };
+      newSnakeBody = { x: snakeBody[i].x - SNAKE_SPEED, y: snakeBody[i].y };
     }
     if (snakeDirection === "top" || snakeDirection === "down") {
-      newSnakeBody = { x: snakeBody[i].x, y: snakeBody[i].y - snakeSpeed };
+      newSnakeBody = { x: snakeBody[i].x, y: snakeBody[i].y - SNAKE_SPEED };
     }
   }
   snakeBody.push(newSnakeBody);
 }
 
-//Game Over: When Snake touch itself
-function snakeTouchItself() {
-  for (let i = 3; i < snakeBody.length; i++) {
-    if (
-      snakeBody[0].x === snakeBody[i].x &&
-      snakeBody[0].y === snakeBody[i].y
-    ) {
-      clearInterval(myInterval);
-      alert("oops, you ran into yourself!");
-    }
+function displayScore() {
+  let score = document.getElementById("score");
+  incrementScore++;
+  score.textContent = `Score: ${incrementScore}`;
+}
+
+function drawApple() {
+  colorRect(
+    applePos.appleX,
+    applePos.appleY,
+    DIM_OF_SNAKE_AND_APPLE[0],
+    DIM_OF_SNAKE_AND_APPLE[1],
+    "red"
+  );
+}
+
+function drawSnake(snakeBody) {
+  colorRect(
+    snakeBody.x,
+    snakeBody.y,
+    DIM_OF_SNAKE_AND_APPLE[0],
+    DIM_OF_SNAKE_AND_APPLE[1],
+    "green"
+  );
+}
+
+function moveSnakeBody(copyOfSnakeBody) {
+  for (let i = 1; i < snakeBody.length; i++) {
+    snakeBody[i] = copyOfSnakeBody[i - 1];
   }
 }
 
-// function resetSnakePos(){
-//   drawSnakeBody(snakeBody);
-// }
+function randomNumber(maxNum) {
+  return Math.floor((Math.random() * maxNum) / SNAKE_SPEED) * SNAKE_SPEED;
+}
+
+function colorRect(x, y, width, height, color) {
+  canvasContext.fillStyle = color;
+  canvasContext.fillRect(x, y, width, height);
+}
