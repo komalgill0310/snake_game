@@ -1,4 +1,4 @@
-<font size = 21> **Snake Game** </font>
+# <font size = 17> **Snake Game** </font>
 
 
 # <font size= 8> **Overview** </font>
