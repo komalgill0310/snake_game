@@ -27,4 +27,5 @@
   * A player should click on the *Restart Game* button in order to restart the game.
 
 # Author
-<font size=5>Komal - | Software Developer | Personal website is in progress | [LinkedIn](https://www.linkedin.com/in/komalpreet-kaur-3b6924177/)
+
+Komal | Software Developer | [Portfolio](https://kaurkomal.com/) | [LinkedIn](https://www.linkedin.com/in/hssa03/)
